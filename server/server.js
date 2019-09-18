@@ -12,7 +12,7 @@ app.use(bodyParser());
 // get all jobs that are in the db
 app.get('/api/jobs', (req,res) => {
     Job.find({}, (err, data) => {
-        if (err) throw err;
+        if (err) res.status(500).send(err.message);
         res.send(data);
     })
 });
@@ -22,7 +22,7 @@ app.post('/api/add_job', (req,res) => {
     var newJob = req.body; 
     delete newJob['tableData'];
     const NewData = new Job(newJob);
-    var returnVal = NewData.save((err,resp) => {
+    NewData.save((err,resp) => {
         if (err) res.status(500).send(err.message)
         res.send("saved")
     })

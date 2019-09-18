@@ -20,9 +20,26 @@ class MyTable extends React.Component {
       var data = res.data;
       data.forEach(el => {
         delete el['_id'];
+        el['date'] = new Date(el['date']);
       });
-      this.setState({data: data});
+      this.setState({ data: data });
     })
+  }
+
+  addJob = (newData) => {
+    this.setState({data: [...this.state.data, newData]});
+    console.log(newData);
+    axios.post(`${baseURL}/api/add_job`, newData, {
+      headers: {
+        "Content-Type" : "application/json"
+      }
+    })
+      .then(res => {
+        console.log(res);
+      })
+      .catch(err => {
+        console.log(err);
+      })
   }
 
   render() {
@@ -35,6 +52,7 @@ class MyTable extends React.Component {
           onRowAdd: newData =>
             new Promise(resolve => {
               setTimeout(() => {
+                this.addJob(newData)
                 resolve();
               }, 600);
             }),

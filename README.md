@@ -1,5 +1,5 @@
 # Job Application Tracker
-I'm creating this application with MERN stack to keep track with my current job application.
+I'm creating this simple CRUD application with MERN stack to keep track with my current job applications.
 
 It's still a work in progress...
 

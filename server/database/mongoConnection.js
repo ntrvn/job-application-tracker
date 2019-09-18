@@ -1,4 +1,5 @@
 var mongoose = require('mongoose');
+mongoose.set('useFindAndModify',false);
 
 // reading my db name and password
 var fs = require('fs');
@@ -7,7 +8,7 @@ var parsed = JSON.parse(fs.readFileSync(__dirname + configPath, 'UTF-8'));
 
 // connecting to mongo cluster
 const uri = `mongodb+srv://${parsed.dbName}:${parsed.dbPass}@job-search-hip77.mongodb.net/job-search?retryWrites=true&w=majority`;
-mongoose.connect(uri, { useNewUrlParser:true, useUnifiedTopology: true });
+mongoose.connect(uri, { useNewUrlParser:true, useUnifiedTopology: true, userFindAndModify:false });
 var db = mongoose.connection;
 // testing connection
 db.on('error', console.error.bind(console, 'connection error:'));

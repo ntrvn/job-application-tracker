@@ -28,10 +28,30 @@ class MyTable extends React.Component {
 
   addJob = (newData) => {
     this.setState({data: [...this.state.data, newData]});
-    console.log(newData);
     axios.post(`${baseURL}/api/add_job`, newData, {
       headers: {
         "Content-Type" : "application/json"
+      }
+    })
+      .then(res => {
+        console.log(res);
+      })
+      .catch(err => {
+        console.log(err);
+      })
+  }
+
+  editJob = (oldJob, newJob) => {
+    const data = [...this.state.data];
+    data[data.indexOf(oldJob)] = newJob;
+    this.setState({ ...this.state, data });
+    console.log(this.state.data);
+    axios.post(`${baseURL}/api/update_job`, {
+      "oldJob": oldJob,
+      "newJob": newJob
+    }, {
+      headers: {
+        "CoContent-Type": "application/json"
       }
     })
       .then(res => {
@@ -59,6 +79,7 @@ class MyTable extends React.Component {
           onRowUpdate: (newData, oldData) =>
             new Promise(resolve => {
               setTimeout(() => {
+                this.editJob(oldData, newData);
                 resolve();
               }, 600);
             }),

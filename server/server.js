@@ -28,16 +28,16 @@ app.post('/api/add_job', (req,res) => {
     })
 });
 
+// update the old job detail with new detail
 app.post('/api/update_job', (req,res) => {
     var oldData = req.body.oldJob;
     delete oldData['__v'];
     delete oldData['tableData'];
-    //const oldJob = new Job(oldData)
 
     var newData = req.body.newJob;
     delete newData['__v'];
     delete newData['tableData'];
-    //const newJob = new Job(newData);
+
     Job.findOneAndUpdate(oldData, newData, {userFindAndModify:false}, (err, doc) => {
         if (err) {
             console.log(err);

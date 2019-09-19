@@ -39,11 +39,20 @@ app.post('/api/update_job', (req,res) => {
     delete newData['tableData'];
 
     Job.findOneAndUpdate(oldData, newData, {userFindAndModify:false}, (err, doc) => {
-        if (err) {
-            console.log(err);
-            res.status(500).send(err.message);
-        }
+        if (err) res.status(500).send(err.message);
         res.send(doc);
+    })
+});
+
+// delete job from database
+app.post('/api/delete_job', (req,res) => {
+    var data = req.body;
+    delete data['__v'];
+    delete data['tableData'];
+    
+    Job.findOneAndDelete(data, (err, resp) => {
+        if (err) res.status(500).send(err.message);
+        res.send("Deleted");
     })
 });
 

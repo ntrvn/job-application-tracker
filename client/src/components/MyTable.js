@@ -62,6 +62,23 @@ class MyTable extends React.Component {
       })
   }
 
+  deleteJob = (job) => {
+    const data = [...this.state.data];
+    data.splice(data.indexOf(job), 1);
+    this.setState({...this.state, data});
+    axios.post(`${baseURL}/api/delete_job`, job, {
+      headers: {
+        "CoContent-Type": "application/json"
+      }
+    })
+      .then(res => {
+        console.log(res);
+      })
+      .catch(err => {
+        console.log(err);
+      })
+  }
+
   render() {
     return (
       <MaterialTable
@@ -86,6 +103,7 @@ class MyTable extends React.Component {
           onRowDelete: oldData =>
             new Promise(resolve => {
               setTimeout(() => {
+                this.deleteJob(oldData);
                 resolve();
               }, 600);
             }),
